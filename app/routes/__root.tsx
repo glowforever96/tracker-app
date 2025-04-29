@@ -27,8 +27,22 @@ import {
   UserButton,
 } from "@clerk/tanstack-react-start";
 import { Button } from "@/components/ui/button";
+import { getSignedInUserId } from "@/data/getSignedInUserId";
 
 export const Route = createRootRoute({
+  notFoundComponent() {
+    return (
+      <div className="text-3xl text-center py-10 text-muted-foreground">
+        요청하신 페이지를 찾을 수 없습니다!
+      </div>
+    );
+  },
+  beforeLoad: async () => {
+    const userId = await getSignedInUserId();
+    return {
+      userId,
+    };
+  },
   head: () => ({
     meta: [
       {
