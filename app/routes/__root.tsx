@@ -5,6 +5,7 @@ import {
   HeadContent,
   Scripts,
   Link,
+  useNavigate,
 } from "@tanstack/react-router";
 
 import appCss from "@/app/app.css?url";
@@ -28,6 +29,7 @@ import {
 } from "@clerk/tanstack-react-start";
 import { Button } from "@/components/ui/button";
 import { getSignedInUserId } from "@/data/getSignedInUserId";
+import { koKR } from "@clerk/localizations";
 
 export const Route = createRootRoute({
   notFoundComponent() {
@@ -111,8 +113,9 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
+  const navigate = useNavigate();
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={koKR}>
       <html>
         <head>
           <HeadContent />
@@ -152,7 +155,19 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
                       },
                     },
                   }}
-                />
+                >
+                  <UserButton.MenuItems>
+                    <UserButton.Action
+                      label="대시보드"
+                      labelIcon={<ChartColumnBigIcon size={16} />}
+                      onClick={() => {
+                        navigate({
+                          to: "/dashboard",
+                        });
+                      }}
+                    />
+                  </UserButton.MenuItems>
+                </UserButton>
               </SignedIn>
             </div>
           </nav>

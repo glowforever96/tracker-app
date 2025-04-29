@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@clerk/localizations": "^3.14.0",
     "@clerk/tanstack-react-start": "^0.14.0",
     "@fontsource/poppins": "^5.2.5",
     "@radix-ui/react-slot": "^1.2.0",
