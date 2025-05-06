@@ -19,19 +19,20 @@ import {
 
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Input } from "./ui/input";
+import { categoriesTable } from "@/db/schema";
 
-const transactionFormSchema = z.object({
+export const transactionFormSchema = z.object({
   transactionType: z.enum(["수입", "지출"]),
   categoryId: z.coerce.number().positive("카테고리를 선택 해주세요!"),
   transactionDate: z
     .date()
-    .max(new Date(), "거래 일시는 미래가 될 수 없습니다!"),
+    .max(addDays(new Date(), 1), "거래 일시는 미래가 될 수 없습니다!"),
   amount: z.coerce.number().positive("총액는 0 이상만 가능합니다!"),
   description: z
     .string()
@@ -39,7 +40,13 @@ const transactionFormSchema = z.object({
     .max(300, "설명은 최대 300자를 초과 할 수 없습니다!"),
 });
 
-export default function TransactionForm() {
+export default function TransactionForm({
+  categories,
+  onSubmit,
+}: {
+  categories: (typeof categoriesTable.$inferSelect)[];
+  onSubmit: (data: z.infer<typeof transactionFormSchema>) => Promise<void>;
+}) {
   const form = useForm<z.infer<typeof transactionFormSchema>>({
     resolver: zodResolver(transactionFormSchema),
     defaultValues: {
@@ -51,13 +58,15 @@ export default function TransactionForm() {
     },
   });
 
-  const handleSubmit = (data: z.infer<typeof transactionFormSchema>) => {
-    console.log({ data });
-  };
+  const transactionType = form.watch("transactionType");
+
+  const filteredCategories = categories.filter(
+    (c) => c.type === transactionType
+  );
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <fieldset
           className="grid grid-cols-2 gap-y-5 gap-x-2"
           disabled={form.formState.isSubmitting}
@@ -100,7 +109,16 @@ export default function TransactionForm() {
                       <SelectTrigger>
                         <SelectValue placeholder="카테고리" />
                       </SelectTrigger>
-                      <SelectContent></SelectContent>
+                      <SelectContent>
+                        {filteredCategories.map((category) => (
+                          <SelectItem
+                            key={category.id}
+                            value={category.id.toString()}
+                          >
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
                     </Select>
                   </FormControl>
                   <FormMessage />
