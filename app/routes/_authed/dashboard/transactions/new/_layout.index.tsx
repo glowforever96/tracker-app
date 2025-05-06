@@ -4,8 +4,9 @@ import TransactionForm, {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createTransaction } from "@/data/createTransaction";
 import { getCategories } from "@/data/getCategories";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export const Route = createFileRoute(
@@ -22,6 +23,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { categories } = Route.useLoaderData();
+  const navigate = useNavigate();
 
   const handleSubmit = async (data: z.infer<typeof transactionFormSchema>) => {
     console.log("handlesubmit", { data });
@@ -33,7 +35,17 @@ function RouteComponent() {
         transactionDate: format(data.transactionDate, "yyyy-MM-dd"),
       },
     });
-    console.log(transaction);
+
+    toast.success("성공!", {
+      description: "새 거래가 등록되었습니다.",
+    });
+    navigate({
+      to: "/dashboard/transactions",
+      search: {
+        month: data.transactionDate.getMonth() + 1,
+        year: data.transactionDate.getFullYear(),
+      },
+    });
   };
   return (
     <Card className="max-w-screen-md mt-4">
