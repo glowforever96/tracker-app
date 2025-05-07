@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -13,9 +13,11 @@ import { ko } from "date-fns/locale";
 import { useState } from "react";
 
 export default function AllTransactions({
+  yearsRange,
   month,
   year,
 }: {
+  yearsRange: number[];
   month: number;
   year: number;
 }) {
@@ -56,14 +58,20 @@ export default function AllTransactions({
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent></SelectContent>
+              <SelectContent>
+                {yearsRange.map((year) => (
+                  <SelectItem value={year.toString()} key={year}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
             <Button asChild>
               <Link
                 to="/dashboard/transactions"
                 search={{
                   month: selectedMonth,
-                  year: 2024,
+                  year: selectedYear,
                 }}
               >
                 조회
@@ -72,6 +80,11 @@ export default function AllTransactions({
           </div>
         </CardTitle>
       </CardHeader>
+      <CardContent>
+        <Button asChild>
+          <Link to="/dashboard/transactions/new">새 거래 등록</Link>
+        </Button>
+      </CardContent>
     </Card>
   );
 }
