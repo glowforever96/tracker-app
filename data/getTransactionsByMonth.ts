@@ -40,7 +40,7 @@ export const getTransactionsByMonth = createServerFn({
           eq(transactionsTable.userId, context.userId),
           gte(
             transactionsTable.transactionDate,
-            format(earliestDate, "yyyy-MM--dd")
+            format(earliestDate, "yyyy-MM-dd")
           ),
           lte(
             transactionsTable.transactionDate,

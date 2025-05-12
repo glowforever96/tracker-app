@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useState } from "react";
@@ -43,7 +43,7 @@ export default function AllTransactions({
 }) {
   const [selectedYear, setSelectedYear] = useState(year);
   const [selectedMonth, setSelectedMonth] = useState(month);
-
+  const router = useRouter();
   const selectedDate = new Date(year, month - 1, 1);
 
   return (
@@ -159,6 +159,13 @@ export default function AllTransactions({
                         <Link
                           to="/dashboard/transactions/$transactionId"
                           params={{ transactionId: id.toString() }}
+                          onClick={() => {
+                            router.clearCache({
+                              filter: (route) =>
+                                route.pathname !==
+                                `/dashboard/transactions/${id}`,
+                            });
+                          }}
                         >
                           <PencilIcon />
                         </Link>
