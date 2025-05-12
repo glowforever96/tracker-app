@@ -154,8 +154,14 @@ export default function AllTransactions({
                         variant="outline"
                         size="icon"
                         aria-label="거래 수정"
+                        asChild
                       >
-                        <PencilIcon />
+                        <Link
+                          to="/dashboard/transactions/$transactionId"
+                          params={{ transactionId: id.toString() }}
+                        >
+                          <PencilIcon />
+                        </Link>
                       </Button>
                     </TableCell>
                   </TableRow>
