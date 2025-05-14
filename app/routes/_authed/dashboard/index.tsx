@@ -51,7 +51,7 @@ function RouteComponent() {
   console.log(transactions, cashflow);
   return (
     <div className="max-w-screen-xl mx-auto py-5 ">
-      <h1 className="text-4xl font-semibold pb-5">dashboard</h1>
+      <h1 className="text-4xl font-semibold pb-5">대시보드</h1>
       <Cashflow
         yearsRange={yearsRange}
         year={cfyear}

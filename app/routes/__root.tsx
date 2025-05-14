@@ -134,7 +134,13 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
                     variant="link"
                     className="text-white cursor-pointer"
                   >
-                    <SignInButton>로그인</SignInButton>
+                    <SignInButton
+                      forceRedirectUrl={
+                        import.meta.env.VITE_CLERK_SIGN_IN_FORCE_REDIRECT_URL
+                      }
+                    >
+                      로그인
+                    </SignInButton>
                   </Button>
                   <div className="w-[1px] h-8 bg-zinc-700" />
                   <Button
