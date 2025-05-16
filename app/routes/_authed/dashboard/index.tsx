@@ -5,6 +5,7 @@ import { getAnnualCashflow } from "@/data/getAnnualCashflow";
 import { getTransactionYearsRange } from "@/data/getTransactionYearsRange";
 import { Cashflow } from "./-cashflow";
 import { z } from "zod";
+import LoadingSkeleton from "@/components/loading-skeleton";
 
 const today = new Date();
 
@@ -18,6 +19,12 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute("/_authed/dashboard/")({
+  pendingComponent: () => (
+    <div className="max-w-screen-xl mx-auto py-5">
+      <h1 className="text-4xl font-semibold pb-5">Dashboard</h1>
+      <LoadingSkeleton />
+    </div>
+  ),
   validateSearch: searchSchema,
   component: RouteComponent,
   loaderDeps: ({ search }) => {
@@ -48,7 +55,6 @@ export const Route = createFileRoute("/_authed/dashboard/")({
 function RouteComponent() {
   const { transactions, cashflow, yearsRange, cfyear } = Route.useLoaderData();
 
-  console.log(transactions, cashflow);
   return (
     <div className="max-w-screen-xl mx-auto py-5 ">
       <h1 className="text-4xl font-semibold pb-5">대시보드</h1>

@@ -124,7 +124,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <body>
           <nav className="bg-primary p-4 h-20 text-white flex items-center justify-between">
             <Link to="/" className="flex gap-1 items-center font-bold text-2xl">
-              <ChartColumnBigIcon className="text-lime-500" /> TrackerApp
+              <ChartColumnBigIcon className="text-lime-500" /> 사임쌓임
             </Link>
             <div>
               <SignedOut>
@@ -157,6 +157,9 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
                   showName
                   appearance={{
                     elements: {
+                      userButtonAvatarBox: {
+                        border: "1px solid white",
+                      },
                       userButtonOuterIdentifier: {
                         color: "white",
                       },

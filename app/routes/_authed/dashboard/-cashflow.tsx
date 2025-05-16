@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -26,13 +27,22 @@ export function Cashflow({
   year: number;
   annualCashflow: { month: number; income: number; expense: number }[];
 }) {
+  const { totalIncome, totalExpense } = annualCashflow.reduce(
+    (acc, { income, expense }) => {
+      (acc.totalIncome += income), (acc.totalExpense += expense);
+      return acc;
+    },
+    { totalIncome: 0, totalExpense: 0 }
+  );
+  const balance = totalIncome - totalExpense;
+
   const navigate = useNavigate();
 
   return (
     <Card className="mb-5">
       <CardHeader>
         <CardTitle className="flex justify-between">
-          <span>Cashflow</span>
+          <span></span>
           <div>
             <Select
               defaultValue={year.toString()}
@@ -59,7 +69,7 @@ export function Cashflow({
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="grid grid-cols-[1fr_250px]">
         <ChartContainer
           config={{
             income: {
@@ -122,6 +132,39 @@ export function Cashflow({
             />
           </BarChart>
         </ChartContainer>
+        <div className="border-l px-4 flex flex-col gap-4 justify-center">
+          <div>
+            <span className="text-muted-foreground font-bold text-sm">
+              수입
+            </span>
+            <h2 className="text-3xl">
+              ₩{numeral(totalIncome).format("0,0[.]00")}
+            </h2>
+          </div>
+          <div className="border-t" />
+          <div>
+            <span className="text-muted-foreground font-bold text-sm">
+              지출
+            </span>
+            <h2 className="text-3xl">
+              ₩{numeral(totalExpense).format("0,0[.]00")}
+            </h2>
+          </div>
+          <div className="border-t" />
+          <div>
+            <span className="text-muted-foreground font-bold text-sm">
+              잔액
+            </span>
+            <h2
+              className={cn(
+                "text-3xl font-bold",
+                balance >= 0 ? "text-lime-500" : "text-orange-500"
+              )}
+            >
+              ₩{numeral(balance).format("0,0[.]00")}
+            </h2>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

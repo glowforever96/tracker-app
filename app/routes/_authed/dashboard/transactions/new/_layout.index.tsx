@@ -26,7 +26,6 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   const handleSubmit = async (data: z.infer<typeof transactionFormSchema>) => {
-    console.log("handlesubmit", { data });
     const transaction = await createTransaction({
       data: {
         amount: data.amount,
