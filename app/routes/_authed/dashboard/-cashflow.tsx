@@ -91,7 +91,7 @@ export function Cashflow({
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  labelFormatter={(value, payload) => {
+                  labelFormatter={(_, payload) => {
                     return (
                       <div>
                         {format(
