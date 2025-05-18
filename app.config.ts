@@ -6,6 +6,9 @@ export default defineConfig({
     preset: "vercel",
   },
   vite: {
+    build: {
+      manifest: true,
+    },
     plugins: [
       tsConfigPaths({
         projects: ["./tsconfig.json"],
