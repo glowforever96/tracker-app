@@ -8,7 +8,7 @@ import {
   useNavigate,
 } from "@tanstack/react-router";
 
-import appCss from "@/app/app.css?url";
+import appCss from "@/styles/app.css?url";
 import poppins100 from "@fontsource/poppins/100.css?url";
 import poppins200 from "@fontsource/poppins/200.css?url";
 import poppins300 from "@fontsource/poppins/300.css?url";
