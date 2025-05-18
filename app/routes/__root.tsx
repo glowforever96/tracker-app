@@ -62,10 +62,6 @@ export const Route = createRootRoute({
     links: [
       {
         rel: "stylesheet",
-        href: appCss,
-      },
-      {
-        rel: "stylesheet",
         href: poppins100,
       },
       {
@@ -119,6 +115,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
     <ClerkProvider localization={koKR}>
       <html>
         <head>
+          <link rel="stylesheet" href={appCss} />
           <HeadContent />
         </head>
         <body>
