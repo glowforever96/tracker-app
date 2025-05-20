@@ -60,6 +60,7 @@ export const Route = createRootRoute({
       },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
       {
         rel: "stylesheet",
         href: poppins100,
@@ -111,11 +112,11 @@ function RootComponent() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   const navigate = useNavigate();
+
   return (
     <ClerkProvider localization={koKR}>
       <html>
         <head>
-          <link rel="stylesheet" href={appCss} />
           <HeadContent />
         </head>
         <body>
